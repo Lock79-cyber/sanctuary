@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyra — Sanctuaire (Studio)</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Lyra — Sanctuaire (Studio)</h1>
+    <div class="status"><span id="statusText">Prête</span></div>
+  </header>
+
+  <main>
+    <ul id="timeline" class="timeline"></ul>
+  </main>
+
+  <footer class="bar">
+    <button id="micButton" class="mic" title="Parler"><span class="pulse"></span>🎤</button>
+    <input id="textInput" placeholder="Parler avec Lyra… (ou écris ici)">
+    <button id="sendButton">Envoyer</button>
+    <button id="studioButton" class="studio-btn" title="Studio d'amélioration">⚙️</button>
+  </footer>
+
+  <section id="studio" class="studio hidden">
+    <div class="panel">
+      <h2>Studio d'amélioration (propositions de patchs)</h2>
+      <div class="grid">
+        <label>ADMIN_TOKEN
+          <input id="adminToken" placeholder="Colle ici ton token admin">
+        </label>
+        <label>Fichier à modifier
+          <input id="filePath" value="public/style.css">
+        </label>
+        <label>Description
+          <input id="desc" value="Améliorer la lisibilité.">
+        </label>
+        <label>Changement souhaité
+          <textarea id="desired" rows="6">/* patch: lisibilité */
+body{letter-spacing:.2px}</textarea>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="propose">Proposer un patch</button>
+        <button id="closeStudio">Fermer</button>
+      </div>
+      <pre id="patchOut"></pre>
+    </div>
+  </section>
+
+  <script src="/app.js"></script>
+</body>
+</html>
