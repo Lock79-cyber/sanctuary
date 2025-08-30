@@ -141,12 +141,14 @@ app.get('*', (req,res)=>{
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=> console.log(`[Lyra] Studio en ligne sur :${PORT}`));
 app.get('/lite', (_req, res) => {
+res.set('Content-Type', 'text/html; charset=utf-8');
 res.send(`<!doctype html>
-<html lang="fr"><meta charset="utf-8"/><title>Sanctuaire – Lite</title>
-<body style="font-family:system-ui;margin:24px;max-width:720px">
-<h2>Sanctuaire (mode léger)</h2>
+<meta charset="utf-8">
+<title>Lyra Sanctuary Lite</title>
+<body style="font-family:system-ui;margin:20px;max-width:700px">
+<h2>Lyra Sanctuary (Lite)</h2>
 <form id="f" style="display:flex;gap:8px;margin:12px 0">
-<input id="t" placeholder="Dis OK" style="flex:1;padding:10px;font-size:16px"/>
+<input id="t" placeholder="Écris ici..." style="flex:1;padding:10px;font-size:16px"/>
 <button>Envoyer</button>
 </form>
 <pre id="out" style="white-space:pre-wrap;padding:12px;border:1px solid #ddd;border-radius:8px;"></pre>
@@ -154,13 +156,13 @@ res.send(`<!doctype html>
 const out = document.getElementById('out');
 document.getElementById('f').addEventListener('submit', async (e) => {
 e.preventDefault();
-const input = document.getElementById('t').value || 'Dis OK';
+const input = document.getElementById('t').value || 'OK';
 out.textContent = '…';
 try {
 const r = await fetch('/api/ask', {
 method:'POST',
 headers:{'Content-Type':'application/json'},
-body: JSON.stringify({ input, num_predict: 64, stream: false })
+body: JSON.stringify({ input, stream: false, num_predict: 32 })
 });
 const data = await r.json();
 out.textContent = data.output || JSON.stringify(data);
@@ -169,5 +171,5 @@ out.textContent = 'Erreur: ' + err.message;
 }
 });
 </script>
-</body></html>`);
+</body>`);
 });
