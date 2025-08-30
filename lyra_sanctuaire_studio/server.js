@@ -140,3 +140,34 @@ app.get('*', (req,res)=>{
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=> console.log(`[Lyra] Studio en ligne sur :${PORT}`));
+app.get('/lite', (_req, res) => {
+res.send(`<!doctype html>
+<html lang="fr"><meta charset="utf-8"/><title>Sanctuaire – Lite</title>
+<body style="font-family:system-ui;margin:24px;max-width:720px">
+<h2>Sanctuaire (mode léger)</h2>
+<form id="f" style="display:flex;gap:8px;margin:12px 0">
+<input id="t" placeholder="Dis OK" style="flex:1;padding:10px;font-size:16px"/>
+<button>Envoyer</button>
+</form>
+<pre id="out" style="white-space:pre-wrap;padding:12px;border:1px solid #ddd;border-radius:8px;"></pre>
+<script>
+const out = document.getElementById('out');
+document.getElementById('f').addEventListener('submit', async (e) => {
+e.preventDefault();
+const input = document.getElementById('t').value || 'Dis OK';
+out.textContent = '…';
+try {
+const r = await fetch('/api/ask', {
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body: JSON.stringify({ input, num_predict: 64, stream: false })
+});
+const data = await r.json();
+out.textContent = data.output || JSON.stringify(data);
+} catch (err) {
+out.textContent = 'Erreur: ' + err.message;
+}
+});
+</script>
+</body></html>`);
+});
